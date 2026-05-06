@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: travelmate-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: travelmate
+      POSTGRES_USER: travelmate
+      POSTGRES_PASSWORD: travelmate
+    ports:
+      - "5432:5432"
+    volumes:
+      - travelmate_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U travelmate -d travelmate"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  travelmate_pg_data:
